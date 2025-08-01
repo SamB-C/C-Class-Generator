@@ -53,10 +53,7 @@ class CPPClassCreator:
     def set_class_name(self, declaration: str) -> None:
         """Extract the class name from the declaration string."""
         # Extract class name from declaration
-        i = 1
-        while declaration[:i].isalnum():
-            i += 1
-        self.name = declaration[:i-1]
+        self.name = re.match(r"[a-zA-Z0-9_]+", declaration).group()
 
     def get_template(self, declaration: str) -> None:
         """Checks if the class is a template class and extracts the template specialisation if it exists."""
