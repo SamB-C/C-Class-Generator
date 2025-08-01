@@ -17,8 +17,7 @@ class Attribute:
     type: str
     setter: bool
     getter: bool
-    index: int = field(default_factory=lambda counter=count()
-                       : next(counter), init=False)
+    index: int = field(default_factory=lambda counter=count()                       : next(counter), init=False)
 
 
 @dataclass(repr=True)
@@ -176,13 +175,16 @@ class CPPClassCreator:
         for attribute in self.attributes:
             attribute: Attribute
             # Check if attribute needs to be included
-            if attribute.type in type_include_association.keys():
-                # Use std:: namespace for these types
-                if f"using std::{attribute.type};" not in namespaces_used:
-                    namespaces_used.append(f"using std::{attribute.type};")
-                # Include these types if not already included
-                if type_include_association[attribute.type] not in includes:
-                    includes.append(type_include_association[attribute.type])
+            types = re.split(r"[<>]", attribute.type)
+            for attr_type in types:
+                if attr_type in type_include_association:
+                    # Use std:: namespace for these types
+                    if f"using std::{attr_type};" not in namespaces_used:
+                        namespaces_used.append(f"using std::{attr_type};")
+                    # Include these types if not already included
+                    if type_include_association[attr_type] not in includes:
+                        includes.append(
+                            type_include_association[attr_type])
         return includes, namespaces_used
 
     def create_class_declaration(self) -> tuple[str, str]:

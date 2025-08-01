@@ -168,6 +168,8 @@ And in the `.cpp` file:
 using std::string;
 ```
 
+Nested types are supported.
+
 ## TO DO
 
 - Allow user to input a target file location
