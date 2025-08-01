@@ -10,21 +10,20 @@ def create_include_guards(classDesc: ClassDescription) -> list[str]:
 
 
 def create_inclusions(classDesc: ClassDescription) -> list[str]:
-    """Generates namespace inclusions, and include statements if the types: string, vector, unique_ptr, shared_ptr, or weak_ptr are used for attributes, without std::
-    . Includes in format `#include <file>` and namespaces in format `using std::type;`.'"""
+    """Generates namespace inclusions, and include statements if the types string or vector are used for attributes.
+     Includes in format `#include <file>` and namespaces in format `using std::type;`.'"""
     namespaces_used = []
     includes = []
     type_include_association = {
         "string": "#include <string>",
+        "std::string": "#include <string>",
         "vector": "#include <vector>",
-        "unique_ptr": "#include <memory>",
-        "shared_ptr": "#include <memory>",
-        "weak_ptr": "#include <memory>"
+        "std::vector": "#include <vector>",
     }
     for attribute in classDesc.attributes:
         attribute: Attribute
         # Check if attribute needs to be included
-        if attribute.type in ["string", "vector", "unique_ptr", "shared_ptr", "weak_ptr"]:
+        if attribute.type in type_include_association.keys():
             # Use std:: namespace for these types
             if f"using std::{attribute.type};" not in namespaces_used:
                 namespaces_used.append(f"using std::{attribute.type};")

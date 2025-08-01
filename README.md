@@ -148,7 +148,7 @@ public:
 
 ### Non-basic types
 
-If the types `string` or `vector` are given as a member variable type (not in format `std::string` or `std::vector`) then those types are automatically included, and their namespaces used.  
+If the types `string` or `vector` (with or without `std::` prepended) are given as a member variable type then those types are automatically included. If `std::` is omitted in at least one instance of these types, the appropriate namespace is used (e.g. `using std::string;`).
 For example, if a member variable is defined with type `string` in the emmet, then the following lines will be written to the `.hpp` file:
 
 ```cpp
