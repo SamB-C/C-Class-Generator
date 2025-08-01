@@ -154,7 +154,7 @@ public:
 
 ### Non-basic types
 
-If the types `string` or `vector` (with or without `std::` prepended) are given as a member variable type then those types are automatically included. If `std::` is omitted in at least one instance of these types, the appropriate namespace is used (e.g. `using std::string;`).
+If the types `string` or `vector`, or the types of any smart pointer (with or without `std::` prepended) are given as a member variable type then those types are automatically included. If `std::` is omitted in at least one instance of these types, the appropriate namespace is used (e.g. `using std::string;`).
 For example, if a member variable is defined with type `string` in the emmet, then the following lines will be written to the `.hpp` file:
 
 ```cpp
@@ -177,5 +177,4 @@ Nested types are supported.
 - Include `.hpp` files of parent classes
 - Multiple template classes.
 - Consider case where there are no member variables
-- Fix pointers
 - Fill in example in `README.md`

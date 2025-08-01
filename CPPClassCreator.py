@@ -166,12 +166,22 @@ class CPPClassCreator:
         Includes in format `#include <file>` and namespaces in format `using std::type;`.'"""
         namespaces_used = []
         includes = []
-        type_include_association = {
+        std_type_include_association = {
             "string": "#include <string>",
-            "std::string": "#include <string>",
             "vector": "#include <vector>",
-            "std::vector": "#include <vector>",
+            "unique_ptr": "#include <memory>",
+            "shared_ptr": "#include <memory>",
+            "weak_ptr": "#include <memory>",
         }
+        # Add types that use namespaces other than `std::` here (will need to add in both 'namespace::type' and 'type' format)
+        non_std_type_include_association = {}
+        type_include_association = {}
+        for type_name in std_type_include_association.keys():
+            type_include_association[type_name] = std_type_include_association[type_name]
+            # Add std:: namespace for these types
+            type_include_association[f"std::{type_name}"] = type_include_association[type_name]
+        for type_name in non_std_type_include_association.keys():
+            type_include_association[type_name] = non_std_type_include_association[type_name]
         for attribute in self.attributes:
             attribute: Attribute
             # Check if attribute needs to be included
@@ -179,7 +189,7 @@ class CPPClassCreator:
             for attr_type in types:
                 if attr_type in type_include_association:
                     # Use std:: namespace for these types
-                    if f"using std::{attr_type};" not in namespaces_used:
+                    if (f"using std::{attr_type};" not in namespaces_used) and (attr_type[:5] != "std::"):
                         namespaces_used.append(f"using std::{attr_type};")
                     # Include these types if not already included
                     if type_include_association[attr_type] not in includes:
