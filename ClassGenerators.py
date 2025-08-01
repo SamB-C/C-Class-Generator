@@ -130,7 +130,7 @@ def create_method_declarations(classDesc: ClassDescription) -> list[str]:
             if method == "get" and attribute.getter:
                 declaration += f"\t{attribute.type} get_{attr_name}() const"
             elif method == "set" and attribute.setter:
-                declaration += f"\t void set_{attr_name}(const {attribute.type} &new{attr_name})"
+                declaration += f"\tvoid set_{attr_name}(const {attribute.type} &new{attr_name})"
             # If template, add method definition
             method_exists = (method == "get" and attribute.getter) or (
                 method == "set" and attribute.setter)
