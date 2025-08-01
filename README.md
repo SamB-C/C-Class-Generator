@@ -32,6 +32,8 @@ The getters are in the format:
 ```cpp
 // For an member variable X of type int
 int get_X() const {
+int get_X() const
+{
     return X;
 }
 ```
@@ -40,7 +42,8 @@ The setters pass by reference and are in the format:
 
 ```cpp
 // For an member variable X of type int
-void set_X(const int &newX) {
+void set_X(const int &newX)
+{
     X = newX;
 }
 ```
@@ -108,12 +111,14 @@ The resulting class from the emmet `Animal<>:s1T` looks like:
 
 
 template <typename T>
-class Animal {
+class Animal
+{
 private:
 	T attr0_s;
 
 public:
-	void set_attr0_s(const T &newattr0_s){
+	void set_attr0_s(const T &newattr0_s)
+    {
 		attr0_s = newattr0_s;
 	};
 };
@@ -133,12 +138,14 @@ For example, to create a specialised `Animal`, (see [Basic Templates](#basic-tem
 
 
 template <>
-class Animal<int> {
+class Animal<int>
+{
 private:
 	int attr0_s;
 
 public:
-	void set_attr0_s(const int &newattr0_s){
+	void set_attr0_s(const int &newattr0_s)
+    {
 		attr0_s = newattr0_s;
 	};
 };

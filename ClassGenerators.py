@@ -67,7 +67,7 @@ def create_class_declaration(classDesc: ClassDescription) -> tuple[str, str]:
                 declaration_line += "virtual "
             declaration_line += f"{parent.inheritance.value} {parent.name}"
     # Add opening brace to declaration line
-    declaration_line += " {"
+    declaration_line += "\n{"
     return template_line, declaration_line
 
 
@@ -140,7 +140,7 @@ def create_method_declarations(classDesc: ClassDescription) -> list[str]:
                     raise ValueError(
                         f"Method definition for {method}_{attr_name} not found.")
                 else:
-                    declaration += "\n\t".join(definition)
+                    declaration += "\n\t" + "\n\t".join(definition)
 
             # Add declaration to list of method declarations
             if method_exists:
@@ -178,7 +178,7 @@ def define_cpp_methods(classDesc: ClassDescription) -> list[str]:
                     raise ValueError(
                         f"Method definition for {method}_{attr_name} not found.")
                 else:
-                    definition += "\n".join(method_definition)
+                    definition += "\n" + "\n".join(method_definition)
                     definition += ";"
                     definitions.append(definition)
 
