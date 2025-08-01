@@ -26,7 +26,7 @@ def create_inclusions(classDesc: ClassDescription) -> list[str]:
         # Check if attribute needs to be included
         if attribute.type in ["string", "vector", "unique_ptr", "shared_ptr", "weak_ptr"]:
             # Use std:: namespace for these types
-            if f"using std::{attribute.type}" not in namespaces_used:
+            if f"using std::{attribute.type};" not in namespaces_used:
                 namespaces_used.append(f"using std::{attribute.type};")
             # Include these types if not already included
             if type_include_association[attribute.type] not in includes:
