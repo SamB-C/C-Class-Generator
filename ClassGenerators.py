@@ -121,7 +121,6 @@ def create_method_declarations(classDesc: ClassDescription) -> list[str]:
     # If class is template class, get definitions as they must be defined along with declarations
     if classDesc.template:
         method_definitions = get_method_definitions(classDesc)
-        print(method_definitions)
     for attribute in classDesc.attributes:
         attribute: Attribute
         attr_name = get_attribute_name(attribute)

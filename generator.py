@@ -9,7 +9,6 @@ def main():
     # Create ClassDescription object
     class_desc = ClassDescription(desc)
     # Generate hpp file
-    print(class_desc)
     create_hpp_file(class_desc)
 
 
