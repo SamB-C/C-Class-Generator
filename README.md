@@ -31,7 +31,6 @@ The getters are in the format:
 
 ```cpp
 // For an member variable X of type int
-int get_X() const {
 int get_X() const
 {
     return X;
@@ -171,12 +170,10 @@ using std::string;
 
 ## TO DO
 
-- Create cpp file generator.
 - Allow user to input a target file location
 - If process will override file, check with user if this is intended. Give option to append to hpp file (in case of template specilisation)
 - Include `.hpp` files of parent classes
 - Multiple template classes.
 - Consider case where there are no member variables
 - Fix pointers
-- Include vector and string when given in form `std::string` or `std::vector`
 - Fill in example in `README.md`

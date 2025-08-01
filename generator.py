@@ -1,6 +1,5 @@
 import sys
 from ClassDescriptors import ClassDescription
-from FileGenerators import create_hpp_file, create_cpp_file
 
 
 def main():
@@ -8,8 +7,8 @@ def main():
     desc = sys.argv[1]
     # Create ClassDescription object
     class_desc = ClassDescription(desc)
-    create_hpp_file(class_desc)
-    create_cpp_file(class_desc)
+    class_desc.create_hpp_file()
+    class_desc.create_cpp_file()
 
 
 if __name__ == "__main__":
