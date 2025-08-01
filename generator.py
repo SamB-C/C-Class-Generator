@@ -10,6 +10,7 @@ def main():
     class_desc = ClassDescription(desc)
     # Generate hpp file
     create_hpp_file(class_desc)
+    print(f"Header file generated successfully at ./{class_desc.name}.hpp")
 
 
 if __name__ == "__main__":
