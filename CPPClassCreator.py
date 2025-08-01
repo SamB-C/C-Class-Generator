@@ -40,7 +40,7 @@ class CPPClassCreator:
         self.parents = []
         self.attributes = []
         # Parse emmet description into components
-        split_description = desc.split(":")
+        split_description = desc.split(";")
         declaration = split_description[0]
         attribute_sets = split_description[1:]
         # Get the name of the class

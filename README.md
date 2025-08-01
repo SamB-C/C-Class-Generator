@@ -18,7 +18,7 @@ Navigation:
 
 ## Emmet Structure
 
-The emmet must be in the format `{className}:{member variables}`. `className` is the name of the class to be created. The two files created will be `{className}.hpp` and `{className}.cpp`.
+The emmet must be in the format `{className};{member variables}`. `className` is the name of the class to be created. The two files created will be `{className}.hpp` and `{className}.cpp`.
 
 ### Defining Member Variables
 
@@ -47,7 +47,7 @@ void set_X(const int &newX)
 }
 ```
 
-If some member variables need getters and setters and some don't, extra member variable sections can be appended to the emmet: `{className}:{member variables}:{member variables}`. For example, a complete emmet `Animal:gs1int2float:s1double:5int` would create:
+If some member variables need getters and setters and some don't, extra member variable sections can be appended to the emmet: `{className};{member variables};{member variables}`. For example, a complete emmet `Animal;gs1int2float;s1double;5int` would create:
 
 - 1 integer with both a getter and setter
 - 2 floats with both a getter and setter
@@ -100,9 +100,9 @@ To obey the one definition rule, in the case where the class is a template, the 
 
 #### Basic Templates
 
-The syntax for creating the class as a template is `{className}<>:{member variables}`, with the `<>` indicating that the class is a template (please note this is reversed from creating template specialisations). At this time, only a single template can be created, and this template is automatically `T`, which is important when creating member variables using this type.
+The syntax for creating the class as a template is `{className}<>;{member variables}`, with the `<>` indicating that the class is a template (please note this is reversed from creating template specialisations). At this time, only a single template can be created, and this template is automatically `T`, which is important when creating member variables using this type.
 
-The resulting class from the emmet `Animal<>:s1T` looks like:
+The resulting class from the emmet `Animal<>;s1T` looks like:
 
 ```cpp
 #ifndef ANIMAL_HPP
@@ -129,7 +129,7 @@ public:
 
 To create a specialised template, specify the type you wish to specialise within the `<>`.
 
-For example, to create a specialised `Animal`, (see [Basic Templates](#basic-templates)) for an int, the emmet `Animal<int>:s1int` will produce:
+For example, to create a specialised `Animal`, (see [Basic Templates](#basic-templates)) for an int, the emmet `Animal<int>;s1int` will produce:
 
 ```cpp
 #ifndef ANIMAL_HPP
