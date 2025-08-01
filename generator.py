@@ -1,5 +1,5 @@
 import sys
-from ClassDescriptors import CPPClassCreator
+from CPPClassCreator import CPPClassCreator
 
 
 def main():
