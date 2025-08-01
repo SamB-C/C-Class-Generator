@@ -30,7 +30,7 @@ class ParentClass:
     position: int
 
 
-class ClassDescription:
+class CPPClassCreator:
     """Class to parse and represent the inheritance and attributes of a C++ class from an emmet description."""
 
     def __init__(self, desc: str) -> None:
