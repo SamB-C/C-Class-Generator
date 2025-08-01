@@ -1,6 +1,6 @@
 import sys
 from ClassDescriptors import ClassDescription
-from FileGenerators import create_hpp_file
+from FileGenerators import create_hpp_file, create_cpp_file
 
 
 def main():
@@ -8,9 +8,8 @@ def main():
     desc = sys.argv[1]
     # Create ClassDescription object
     class_desc = ClassDescription(desc)
-    # Generate hpp file
     create_hpp_file(class_desc)
-    print(f"Header file generated successfully at ./{class_desc.name}.hpp")
+    create_cpp_file(class_desc)
 
 
 if __name__ == "__main__":

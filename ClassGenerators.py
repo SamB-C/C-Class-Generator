@@ -148,3 +148,38 @@ def create_method_declarations(classDesc: ClassDescription) -> list[str]:
                 method_declarations.append(declaration)
 
     return method_declarations
+
+
+def create_cpp_header(classDesc: ClassDescription) -> str:
+    return f"#include \"{classDesc.name}.hpp\""
+
+
+def define_cpp_methods(classDesc: ClassDescription) -> list[str]:
+    """Generates method definitions for associated declarations in the header file."""
+    definitions = []
+    method_definitions = get_method_definitions(classDesc)
+    for attribute in classDesc.attributes:
+        attribute: Attribute
+        attr_name = get_attribute_name(attribute)
+        # Create getter and setter declarations
+        for method in ["get", "set"]:
+            definition = ""
+            if method == "get" and attribute.getter:
+                definition += f"{attribute.type} {classDesc.name}::get_{attr_name}() const"
+            elif method == "set" and attribute.setter:
+                definition += f"void {classDesc.name}::set_{attr_name}(const {attribute.type} &new{attr_name})"
+            # If template, add method definition
+            method_exists = (method == "get" and attribute.getter) or (
+                method == "set" and attribute.setter)
+            if method_exists:
+                method_definition = method_definitions.get(
+                    f"{method}_{attr_name}", None)
+                if method_definition == None:
+                    raise ValueError(
+                        f"Method definition for {method}_{attr_name} not found.")
+                else:
+                    definition += "\n".join(method_definition)
+                    definition += ";"
+                    definitions.append(definition)
+
+    return definitions
