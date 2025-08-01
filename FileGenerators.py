@@ -12,8 +12,9 @@ def create_hpp_file(classDesc: ClassDescription) -> None:
         method_declarations = create_method_declarations(classDesc)
 
         # Write first two parts of include guards
-        file.write(include_guards[0] + "\n")
-        file.write(include_guards[1] + "\n\n")
+        if (classDesc.template):
+            file.write(include_guards[0] + "\n")
+            file.write(include_guards[1] + "\n\n")
 
         # Write inclusions
         for inclusion in inclusions:
@@ -44,4 +45,5 @@ def create_hpp_file(classDesc: ClassDescription) -> None:
         file.write("};\n\n")
 
         # Write last part of include guards
-        file.write(include_guards[2])
+        if (classDesc.template):
+            file.write(include_guards[2])
