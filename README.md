@@ -3,10 +3,10 @@
 ## Description
 
 This program takes an emmet like description of a C++ class, and creates a `.hpp` and `.cpp` file, containing boilerplate for that class. The file names match the name of the class input.
-To run the program, execute the python file, with the emmet describing the class passed in as an argument, i.e. `python3 genertor.py {emmet}`.
 
 Navigation:
 
+- [Running the Program](#running-the-program)
 - [Emmet Structure](#description)
 - [Defining Member Variables](#description)
   - [Member Variable Names](#member-variable-names)
@@ -16,6 +16,17 @@ Navigation:
   - [Basic Templates](#basic-templates)
   - [Class Specialisation](#class-specilisation)
 - [Non-Basic Types](#non-basic-types)
+
+## Running the Program
+
+To run the program, execute the python file, with the emmet describing the class passed in as an argument.
+An optional third argument specifying the target directory can also be provided. If the directory doesn't already exist, it is created. By default, the files are generated in the current working directory.
+
+For example, to create an empty class called `MyClass` in the directory `./MyClassDirectory`, run:
+
+```bash
+$ python3 generator.py 'MyClass' ./MyClassDirectory
+```
 
 ## Emmet Structure
 
@@ -178,5 +189,4 @@ Nested types are supported.
 - Allow user to input a target file location
 - If process will override file, check with user if this is intended. Give option to append to hpp file (in case of template specilisation)
 - Multiple template classes.
-- Consider case where there are no member variables
 - Fill in example in `README.md`

@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 import re
 from itertools import count
+import os
 
 
 class Inheritance(Enum):
@@ -17,7 +18,8 @@ class Attribute:
     type: str
     setter: bool
     getter: bool
-    index: int = field(default_factory=lambda counter=count()                       : next(counter), init=False)
+    index: int = field(default_factory=lambda counter=count()
+                       : next(counter), init=False)
 
 
 @dataclass(repr=True)
@@ -351,9 +353,16 @@ class CPPClassCreator:
 
         return definitions
 
-    def create_hpp_file(self) -> None:
+    def create_directory_if_not_exists(self, location: str) -> None:
+        """Creates a directory if it does not exist."""
+        if not os.path.exists(location):
+            os.makedirs(location)
+            print(f"Directory {location} created.")
+
+    def create_hpp_file(self, location: str) -> None:
         """Generates a header file (.hpp) and its contents for the given class description."""
-        with open(f"{self.name}.hpp", "w") as file:
+        self.create_directory_if_not_exists(location)
+        with open(f"{location}/{self.name}.hpp", "w") as file:
             include_guards = self.create_include_guards()
             inclusions, namespaces, parent_includes = self.create_inclusions()
             class_declaration = self.create_class_declaration()
@@ -403,12 +412,13 @@ class CPPClassCreator:
                 file.write(include_guards[2])
         print(f"Header file generated successfully at ./{self.name}.hpp")
 
-    def create_cpp_file(self) -> None:
+    def create_cpp_file(self, location: str) -> None:
         """Creates a cpp file (.cpp) for the given class description."""
+        self.create_directory_if_not_exists(location)
         if self.template:
             # Exit as no cpp file needed
             return
-        with open(f"{self.name}.cpp", "w") as file:
+        with open(f"{location}/{self.name}.cpp", "w") as file:
             header = self.create_cpp_header()
             inclusions, namespaces, parent_includes = self.create_inclusions()
             methods = self.define_cpp_methods()
