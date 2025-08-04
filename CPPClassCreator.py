@@ -161,11 +161,12 @@ class CPPClassCreator:
         else:
             return []
 
-    def create_inclusions(self) -> list[str]:
-        """Generates namespace inclusions, and include statements if the types string or vector are used for attributes.
-        Includes in format `#include <file>` and namespaces in format `using std::type;`.'"""
+    def create_inclusions(self) -> tuple[list[str], list[str], list[str]]:
+        """Generates namespace inclusions, and include statements for imported types, and includes of parent classes.
+        Includes in format `#include <file>`, namespaces in format `using std::type;` and parent includes in format `#include "ParentClass.hpp"`."""
         namespaces_used = []
         includes = []
+        parent_includes = []
         std_type_include_association = {
             "string": "#include <string>",
             "vector": "#include <vector>",
@@ -195,7 +196,14 @@ class CPPClassCreator:
                     if type_include_association[attr_type] not in includes:
                         includes.append(
                             type_include_association[attr_type])
-        return includes, namespaces_used
+        # Create parent class includes
+        for parent in self.parents:
+            parent: ParentClass
+            # Check if parent class is already included
+            parent_include = f"#include \"{parent.name}.hpp\""
+            if parent_include not in parent_includes and parent_include not in includes:
+                parent_includes.append(parent_include)
+        return includes, namespaces_used, parent_includes
 
     def create_class_declaration(self) -> tuple[str, str]:
         """Generates Declaration for the class, including template specialisation if it exists. Template line in format
@@ -347,7 +355,7 @@ class CPPClassCreator:
         """Generates a header file (.hpp) and its contents for the given class description."""
         with open(f"{self.name}.hpp", "w") as file:
             include_guards = self.create_include_guards()
-            inclusions, namespaces = self.create_inclusions()
+            inclusions, namespaces, parent_includes = self.create_inclusions()
             class_declaration = self.create_class_declaration()
             attributes = self.create_attributes()
             method_declarations = self.create_method_declarations()
@@ -360,6 +368,11 @@ class CPPClassCreator:
             # Write inclusions
             for inclusion in inclusions:
                 file.write(inclusion + "\n")
+
+            if parent_includes:
+                # Write parent includes
+                for parent_include in parent_includes:
+                    file.write(parent_include + "\n")
 
             # Write namespaces used
             for namespace in namespaces:
@@ -397,7 +410,7 @@ class CPPClassCreator:
             return
         with open(f"{self.name}.cpp", "w") as file:
             header = self.create_cpp_header()
-            inclusions, namespaces = self.create_inclusions()
+            inclusions, namespaces, parent_includes = self.create_inclusions()
             methods = self.define_cpp_methods()
 
             # Write header inclusion

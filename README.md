@@ -80,6 +80,8 @@ For example, `Mule=Horse?+Donkey` would create a class declaration of:
 class Mule : virtual protected Horse, public Donkey
 ```
 
+Parent classes are automatically included in the `.hpp` file in the format `#include "{ParentClass}.hpp"`.
+
 ### Templates
 
 The generator can also generate template classes. As template classes must be defined where they are declared, only a `.hpp` file containing the entire class is created.
