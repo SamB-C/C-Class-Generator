@@ -2,7 +2,8 @@
 
 ## Description
 
-This program takes an emmet like description of a C++ class, and creates a `.hpp` and `.cpp` file, containing boilerplate for that class.
+This program takes an emmet like description of a C++ class, and creates a `.hpp` and `.cpp` file, containing boilerplate for that class. The file names match the name of the class input.
+To run the program, execute the python file, with the emmet describing the class passed in as an argument, i.e. `python3 genertor.py {emmet}`.
 
 Navigation:
 
@@ -176,7 +177,6 @@ Nested types are supported.
 
 - Allow user to input a target file location
 - If process will override file, check with user if this is intended. Give option to append to hpp file (in case of template specilisation)
-- Include `.hpp` files of parent classes
 - Multiple template classes.
 - Consider case where there are no member variables
 - Fill in example in `README.md`
