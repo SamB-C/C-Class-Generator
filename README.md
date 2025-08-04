@@ -28,6 +28,15 @@ For example, to create an empty class called `MyClass` in the directory `./MyCla
 $ python3 generator.py 'MyClass' ./MyClassDirectory
 ```
 
+By default, if the program is going to override a file, it will ask the user if they wish to overwrite the existing file, or append to
+it (for each pre-existing file). The following flags can be used to force overwriting or appending:
+|Flag |Description |
+|-------------------|-----------------------------------------|
+|`-o` or `-override`| Automatically overwrites existing files |
+|`-a` or `-append` | Automatically appends to existing files |
+
+If both flags are provided, the program exists with an error.
+
 ## Emmet Structure
 
 The emmet must be in the format `{className};{member variables}`. `className` is the name of the class to be created. The two files created will be `{className}.hpp` and `{className}.cpp`.
@@ -186,7 +195,8 @@ Nested types are supported.
 
 ## TO DO
 
-- Allow user to input a target file location
 - If process will override file, check with user if this is intended. Give option to append to hpp file (in case of template specilisation)
+- Give option to create template class as well as specilisation when giving specilisation emmet.
+- Do not add redundant includes if already exist (if in append mode)
 - Multiple template classes.
 - Fill in example in `README.md`

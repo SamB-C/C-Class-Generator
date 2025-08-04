@@ -359,10 +359,33 @@ class CPPClassCreator:
             os.makedirs(location)
             print(f"Directory {location} created.")
 
-    def create_hpp_file(self, location: str) -> None:
+    def do_override(self, location: str, suffix: str) -> bool:
+        """Checks if a file with the given name already exists in the specified location.
+        If it does, it prompts the user to confirm whether to override it or not."""
+        file_path = f"{location}/{self.name}{suffix}"
+        if os.path.exists(file_path):
+            while True:
+                response = input(
+                    f"File {file_path} already exists. Do you want to override it? (y/n/exit): ").strip().lower()
+                if response in ['y', 'n']:
+                    return response == 'y'
+                elif response == 'exit':
+                    print("Exiting without creating files.")
+                    exit(1)
+                print("Invalid input. Please enter 'y' or 'n'.")
+        return True
+
+    def get_write_flag(self, location: str, suffix: str, options: dict[str, bool]) -> str:
+        """Determines the write flag for file operations based on user options and existing files."""
+        if options["append"] or (not options["override"] and not self.do_override(location, suffix)):
+            return "a"
+        return "w"
+
+    def create_hpp_file(self, location: str, options: dict[str, bool]) -> None:
         """Generates a header file (.hpp) and its contents for the given class description."""
         self.create_directory_if_not_exists(location)
-        with open(f"{location}/{self.name}.hpp", "w") as file:
+        write_flag = self.get_write_flag(location, ".hpp", options)
+        with open(f"{location}/{self.name}.hpp", write_flag) as file:
             include_guards = self.create_include_guards()
             inclusions, namespaces, parent_includes = self.create_inclusions()
             class_declaration = self.create_class_declaration()
@@ -412,13 +435,15 @@ class CPPClassCreator:
                 file.write(include_guards[2])
         print(f"Header file generated successfully at ./{self.name}.hpp")
 
-    def create_cpp_file(self, location: str) -> None:
+    def create_cpp_file(self, location: str, options: dict[str, bool]) -> None:
         """Creates a cpp file (.cpp) for the given class description."""
         self.create_directory_if_not_exists(location)
+        write_flag = write_flag = self.get_write_flag(
+            location, ".cpp", options)
         if self.template:
             # Exit as no cpp file needed
             return
-        with open(f"{location}/{self.name}.cpp", "w") as file:
+        with open(f"{location}/{self.name}.cpp", write_flag) as file:
             header = self.create_cpp_header()
             inclusions, namespaces, parent_includes = self.create_inclusions()
             methods = self.define_cpp_methods()
